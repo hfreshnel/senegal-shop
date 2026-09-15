@@ -570,19 +570,6 @@
           "default": "Senegal"
         }
       },
-      "blocks": {
-        "detail": {
-          "name": "Detail",
-          "settings": {
-            "label": {
-              "label": "Label"
-            },
-            "value": {
-              "label": "Value"
-            }
-          }
-        }
-      },
       "presets": {
         "name": "Large heading"
       }

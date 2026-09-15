@@ -37,7 +37,7 @@
       {%- endif -%}
     </div>
 
-    {%- if section.blocks.size > 0 -%}
+    {%- if section.settings.origin_label != blank or section.settings.destination_label != blank -%}
       <div class="hero-route__route">
         <div class="hero-route__line">
           <span class="hero-route__dot"></span>
@@ -48,14 +48,6 @@
           <span>{{ section.settings.origin_label }}</span>
           <span>{{ section.settings.destination_label }}</span>
         </div>
-        <dl class="hero-route__details">
-          {%- for block in section.blocks -%}
-            <div class="hero-route__detail" {{ block.shopify_attributes }}>
-              <dt>{{ block.settings.label }}</dt>
-              <dd>{{ block.settings.value }}</dd>
-            </div>
-          {%- endfor -%}
-        </dl>
       </div>
     {%- endif -%}
   </div>
@@ -137,33 +129,6 @@
     text-transform: uppercase;
     color: rgba(var(--color-foreground), 0.7);
     margin-top: 1rem;
-  }
-
-  .hero-route__details {
-    margin: 2.4rem 0 0;
-    padding: 1.8rem 2rem;
-    border: 1px solid rgba(var(--color-foreground), 0.18);
-    border-radius: var(--inputs-radius);
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-
-  .hero-route__detail {
-    display: flex;
-    justify-content: space-between;
-    gap: 1.2rem;
-    font-size: 1.4rem;
-  }
-
-  .hero-route__detail dt {
-    color: rgba(var(--color-foreground), 0.7);
-  }
-
-  .hero-route__detail dd {
-    margin: 0;
-    font-weight: 600;
-    text-align: right;
   }
 
   @media screen and (max-width: 749px) {
@@ -268,32 +233,9 @@
       "default": 76
     }
   ],
-  "blocks": [
-    {
-      "type": "detail",
-      "name": "t:sections.hero-route.blocks.detail.name",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "t:sections.hero-route.blocks.detail.settings.label.label"
-        },
-        {
-          "type": "text",
-          "id": "value",
-          "label": "t:sections.hero-route.blocks.detail.settings.value.label"
-        }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "t:sections.hero-route.presets.name",
-      "blocks": [
-        { "type": "detail" },
-        { "type": "detail" },
-        { "type": "detail" }
-      ]
+      "name": "t:sections.hero-route.presets.name"
     }
   ]
 }

@@ -570,19 +570,6 @@
           "default": "Sénégal"
         }
       },
-      "blocks": {
-        "detail": {
-          "name": "Repère",
-          "settings": {
-            "label": {
-              "label": "Libellé"
-            },
-            "value": {
-              "label": "Valeur"
-            }
-          }
-        }
-      },
       "presets": {
         "name": "Grand titre"
       }
