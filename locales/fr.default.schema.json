@@ -508,6 +508,31 @@
         "name": "Barre d’annonces"
       }
     },
+    "brand-nav": {
+      "name": "Marques",
+      "settings": {
+        "paragraph": {
+          "content": "Rail de navigation entre les pages marques, affiché sur tout le site."
+        }
+      },
+      "blocks": {
+        "brand": {
+          "name": "Marque",
+          "settings": {
+            "collection": {
+              "label": "Collection"
+            },
+            "title": {
+              "label": "Nom affiché",
+              "info": "Par défaut, utilise le titre de la collection"
+            },
+            "logo": {
+              "label": "Logo"
+            }
+          }
+        }
+      }
+    },
     "collage": {
       "name": "Collage",
       "settings": {

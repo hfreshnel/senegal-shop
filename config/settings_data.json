@@ -59,6 +59,39 @@
             "secondary_button_label": "#FBF7F1",
             "shadow": "#000000"
           }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#EDF1F5",
+            "background_gradient": "",
+            "text": "#1A2733",
+            "button": "#2C4A6E",
+            "button_label": "#EDF1F5",
+            "secondary_button_label": "#2C4A6E",
+            "shadow": "#16232E"
+          }
+        },
+        "scheme-7": {
+          "settings": {
+            "background": "#F3E8EE",
+            "background_gradient": "",
+            "text": "#2E1A24",
+            "button": "#7A3B57",
+            "button_label": "#F3E8EE",
+            "secondary_button_label": "#7A3B57",
+            "shadow": "#3D1D2B"
+          }
+        },
+        "scheme-8": {
+          "settings": {
+            "background": "#EEF0E4",
+            "background_gradient": "",
+            "text": "#262B1E",
+            "button": "#5B6B4D",
+            "button_label": "#EEF0E4",
+            "secondary_button_label": "#5B6B4D",
+            "shadow": "#2E361F"
+          }
         }
       },
       "type_header_font": "assistant_n4",

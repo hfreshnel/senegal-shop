@@ -276,6 +276,19 @@
           font-size: 1.6rem;
         }
       }
+
+      .brand-shell {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      @media screen and (min-width: 990px) {
+        .brand-shell {
+          display: grid;
+          grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+        }
+      }
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
@@ -332,15 +345,19 @@
 
     {% sections 'header-group' %}
 
-    <main
-      id="MainContent"
-      class="content-for-layout focus-none"
-      role="main"
-      tabindex="-1"
-      data-template="{{ template.name }}"
-    >
-      {{ content_for_layout }}
-    </main>
+    <div class="brand-shell">
+      {% sections 'brand-nav-group' %}
+
+      <main
+        id="MainContent"
+        class="content-for-layout focus-none"
+        role="main"
+        tabindex="-1"
+        data-template="{{ template.name }}"
+      >
+        {{ content_for_layout }}
+      </main>
+    </div>
 
     {% sections 'footer-group' %}
 

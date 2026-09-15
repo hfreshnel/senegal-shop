@@ -1,0 +1,37 @@
+{
+  "name": "t:sections.brand-nav.name",
+  "type": "custom.brand-nav",
+  "sections": {
+    "brand-nav": {
+      "type": "brand-nav",
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "brand-a": {
+          "type": "brand",
+          "settings": {
+            "title": "Marque A",
+            "color_scheme": "scheme-6"
+          }
+        },
+        "brand-b": {
+          "type": "brand",
+          "settings": {
+            "title": "Marque B",
+            "color_scheme": "scheme-7"
+          }
+        },
+        "brand-c": {
+          "type": "brand",
+          "settings": {
+            "title": "Marque C",
+            "color_scheme": "scheme-8"
+          }
+        }
+      },
+      "block_order": ["brand-a", "brand-b", "brand-c"]
+    }
+  },
+  "order": ["brand-nav"]
+}

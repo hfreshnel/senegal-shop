@@ -508,6 +508,31 @@
         "name": "Announcement bar"
       }
     },
+    "brand-nav": {
+      "name": "Brands",
+      "settings": {
+        "paragraph": {
+          "content": "Navigation rail between brand pages, shown across the whole site."
+        }
+      },
+      "blocks": {
+        "brand": {
+          "name": "Brand",
+          "settings": {
+            "collection": {
+              "label": "Collection"
+            },
+            "title": {
+              "label": "Display name",
+              "info": "Defaults to the collection title"
+            },
+            "logo": {
+              "label": "Logo"
+            }
+          }
+        }
+      }
+    },
     "apps": {
       "name": "Apps",
       "settings": {
