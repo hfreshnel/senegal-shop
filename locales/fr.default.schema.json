@@ -533,6 +533,141 @@
         }
       }
     },
+    "hero-route": {
+      "name": "Grand titre",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "L’Europe livrée chez vous, au Sénégal."
+        },
+        "text": {
+          "label": "Texte",
+          "default": "<p>Une sélection de marques européennes, commandées et payées en ligne en toute simplicité.</p>"
+        },
+        "button_label_1": {
+          "label": "Premier bouton — texte",
+          "default": "Découvrir les marques"
+        },
+        "button_link_1": {
+          "label": "Premier bouton — lien"
+        },
+        "button_style_secondary": {
+          "label": "Style contour"
+        },
+        "button_label_2": {
+          "label": "Second bouton — texte",
+          "default": "Comment ça marche"
+        },
+        "button_link_2": {
+          "label": "Second bouton — lien"
+        },
+        "origin_label": {
+          "label": "Étiquette de départ",
+          "default": "Europe"
+        },
+        "destination_label": {
+          "label": "Étiquette d’arrivée",
+          "default": "Sénégal"
+        }
+      },
+      "blocks": {
+        "detail": {
+          "name": "Repère",
+          "settings": {
+            "label": {
+              "label": "Libellé"
+            },
+            "value": {
+              "label": "Valeur"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Grand titre"
+      }
+    },
+    "brand-showcase": {
+      "name": "Vitrine des marques",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "Des marques, pas juste des produits"
+        },
+        "subheading": {
+          "label": "Sous-titre",
+          "default": "Chaque marque a sa propre page et son propre univers."
+        }
+      },
+      "blocks": {
+        "brand": {
+          "name": "Marque",
+          "settings": {
+            "collection": {
+              "label": "Collection"
+            },
+            "title": {
+              "label": "Nom affiché",
+              "info": "Par défaut, utilise le titre de la collection"
+            },
+            "description": {
+              "label": "Description courte"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Vitrine des marques"
+      }
+    },
+    "how-it-works": {
+      "name": "Comment ça marche",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "Comment ça marche"
+        },
+        "subheading": {
+          "label": "Sous-titre",
+          "default": "Trois étapes, du choix du produit à la livraison chez vous."
+        }
+      },
+      "blocks": {
+        "step": {
+          "name": "Étape",
+          "settings": {
+            "title": {
+              "label": "Titre"
+            },
+            "text": {
+              "label": "Texte"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Comment ça marche"
+      }
+    },
+    "cta-band": {
+      "name": "Bandeau d’appel",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "Une question avant de commander ?"
+        },
+        "button_label": {
+          "label": "Bouton — texte",
+          "default": "Comment ça marche"
+        },
+        "button_link": {
+          "label": "Bouton — lien"
+        }
+      },
+      "presets": {
+        "name": "Bandeau d’appel"
+      }
+    },
     "collage": {
       "name": "Collage",
       "settings": {

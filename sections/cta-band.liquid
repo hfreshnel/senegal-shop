@@ -1,0 +1,116 @@
+<div class="cta-band color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width cta-band__row">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="cta-band__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a
+        {% if section.settings.button_link == blank %}
+          role="link" aria-disabled="true"
+        {% else %}
+          href="{{ section.settings.button_link }}"
+        {% endif %}
+        class="button button--primary"
+      >
+        {{- section.settings.button_label | escape -}}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% stylesheet %}
+  .cta-band__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2.4rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-band__heading {
+    margin: 0;
+    max-width: 24ch;
+  }
+
+  @media screen and (max-width: 749px) {
+    .cta-band__row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.cta-band.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:sections.cta-band.settings.heading.label",
+      "default": "t:sections.cta-band.settings.heading.default"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.cta-band.settings.button_label.label",
+      "default": "t:sections.cta-band.settings.button_label.default"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.cta-band.settings.button_link.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-5"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.cta-band.presets.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,212 @@
+<div class="brand-showcase color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="brand-showcase__head">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="brand-showcase__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="brand-showcase__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <ul class="brand-showcase__grid" role="list">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <a
+            class="brand-showcase__card"
+            {% if block.settings.collection != blank %}
+              href="{{ block.settings.collection.url }}"
+            {% else %}
+              role="link" aria-disabled="true"
+            {% endif %}
+          >
+            <span class="brand-showcase__swatch color-{{ block.settings.color_scheme }}" aria-hidden="true"></span>
+            <span class="brand-showcase__title">
+              {{ block.settings.title | default: block.settings.collection.title }}
+            </span>
+            {%- if block.settings.description != blank -%}
+              <span class="brand-showcase__description">{{ block.settings.description }}</span>
+            {%- endif -%}
+            <span class="brand-showcase__cta">{{ 'sections.brand-showcase.cta' | t }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% stylesheet %}
+  .brand-showcase__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 2.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 3.6rem;
+  }
+
+  .brand-showcase__heading {
+    margin: 0;
+  }
+
+  .brand-showcase__subheading {
+    margin: 0;
+    max-width: 38ch;
+    color: rgba(var(--color-foreground), 0.75);
+  }
+
+  .brand-showcase__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .brand-showcase__card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    height: 100%;
+    padding: 2.6rem 2.4rem;
+    border: 1px solid rgba(var(--color-foreground), 0.14);
+    border-radius: var(--inputs-radius);
+    text-decoration: none;
+    color: rgb(var(--color-foreground));
+  }
+
+  .brand-showcase__swatch {
+    width: 4.8rem;
+    height: 2.4rem;
+    border-radius: var(--inputs-radius);
+  }
+
+  .brand-showcase__title {
+    font-family: var(--font-heading-family);
+    font-size: 1.8rem;
+  }
+
+  .brand-showcase__description {
+    font-size: 1.4rem;
+    color: rgba(var(--color-foreground), 0.7);
+    line-height: 1.5;
+  }
+
+  .brand-showcase__cta {
+    margin-top: auto;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 749px) {
+    .brand-showcase__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.brand-showcase.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:sections.brand-showcase.settings.heading.label",
+      "default": "t:sections.brand-showcase.settings.heading.default"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.brand-showcase.settings.subheading.label",
+      "default": "t:sections.brand-showcase.settings.subheading.default"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 68
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 68
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "t:sections.brand-showcase.blocks.brand.name",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.brand-showcase.blocks.brand.settings.collection.label"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.brand-showcase.blocks.brand.settings.title.label",
+          "info": "t:sections.brand-showcase.blocks.brand.settings.title.info"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "t:sections.brand-showcase.blocks.brand.settings.description.label"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-1"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.brand-showcase.presets.name",
+      "blocks": [
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" }
+      ]
+    }
+  ]
+}
+{% endschema %}

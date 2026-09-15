@@ -533,6 +533,141 @@
         }
       }
     },
+    "hero-route": {
+      "name": "Large heading",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Europe, delivered to your door in Senegal."
+        },
+        "text": {
+          "label": "Text",
+          "default": "<p>A curated selection of European brands, ordered and paid for online, no hassle.</p>"
+        },
+        "button_label_1": {
+          "label": "First button label",
+          "default": "Browse brands"
+        },
+        "button_link_1": {
+          "label": "First button link"
+        },
+        "button_style_secondary": {
+          "label": "Use outline style"
+        },
+        "button_label_2": {
+          "label": "Second button label",
+          "default": "How it works"
+        },
+        "button_link_2": {
+          "label": "Second button link"
+        },
+        "origin_label": {
+          "label": "Origin label",
+          "default": "Europe"
+        },
+        "destination_label": {
+          "label": "Destination label",
+          "default": "Senegal"
+        }
+      },
+      "blocks": {
+        "detail": {
+          "name": "Detail",
+          "settings": {
+            "label": {
+              "label": "Label"
+            },
+            "value": {
+              "label": "Value"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Large heading"
+      }
+    },
+    "brand-showcase": {
+      "name": "Brand showcase",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Brands, not just products"
+        },
+        "subheading": {
+          "label": "Subheading",
+          "default": "Each brand has its own page and its own look."
+        }
+      },
+      "blocks": {
+        "brand": {
+          "name": "Brand",
+          "settings": {
+            "collection": {
+              "label": "Collection"
+            },
+            "title": {
+              "label": "Display name",
+              "info": "Defaults to the collection title"
+            },
+            "description": {
+              "label": "Short description"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Brand showcase"
+      }
+    },
+    "how-it-works": {
+      "name": "How it works",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "How it works"
+        },
+        "subheading": {
+          "label": "Subheading",
+          "default": "Three steps, from picking a product to delivery."
+        }
+      },
+      "blocks": {
+        "step": {
+          "name": "Step",
+          "settings": {
+            "title": {
+              "label": "Title"
+            },
+            "text": {
+              "label": "Text"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "How it works"
+      }
+    },
+    "cta-band": {
+      "name": "Call-to-action banner",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Questions before you order?"
+        },
+        "button_label": {
+          "label": "Button label",
+          "default": "How it works"
+        },
+        "button_link": {
+          "label": "Button link"
+        }
+      },
+      "presets": {
+        "name": "Call-to-action banner"
+      }
+    },
     "apps": {
       "name": "Apps",
       "settings": {

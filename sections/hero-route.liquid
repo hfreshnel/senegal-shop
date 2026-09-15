@@ -1,0 +1,300 @@
+<div class="hero-route color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width hero-route__grid">
+    <div class="hero-route__content">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="hero-route__heading">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="hero-route__text rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+      {%- if section.settings.button_label_1 != blank or section.settings.button_label_2 != blank -%}
+        <div class="hero-route__buttons">
+          {%- if section.settings.button_label_1 != blank -%}
+            <a
+              {% if section.settings.button_link_1 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_1 }}"
+              {% endif %}
+              class="button{% if section.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}"
+            >
+              {{- section.settings.button_label_1 | escape -}}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.button_label_2 != blank -%}
+            <a
+              {% if section.settings.button_link_2 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_2 }}"
+              {% endif %}
+              class="button{% if section.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
+            >
+              {{- section.settings.button_label_2 | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="hero-route__route">
+        <div class="hero-route__line">
+          <span class="hero-route__dot"></span>
+          <span class="hero-route__track"></span>
+          <span class="hero-route__dot hero-route__dot--end"></span>
+        </div>
+        <div class="hero-route__labels">
+          <span>{{ section.settings.origin_label }}</span>
+          <span>{{ section.settings.destination_label }}</span>
+        </div>
+        <dl class="hero-route__details">
+          {%- for block in section.blocks -%}
+            <div class="hero-route__detail" {{ block.shopify_attributes }}>
+              <dt>{{ block.settings.label }}</dt>
+              <dd>{{ block.settings.value }}</dd>
+            </div>
+          {%- endfor -%}
+        </dl>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% stylesheet %}
+  .hero-route__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-route__heading {
+    max-width: 16ch;
+    margin: 0 0 2rem;
+  }
+
+  .hero-route__text {
+    max-width: 42ch;
+    margin: 0 0 3rem;
+  }
+
+  .hero-route__buttons {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-route__line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-route__dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: rgb(var(--color-button));
+    flex: 0 0 auto;
+  }
+
+  .hero-route__dot--end {
+    background: rgb(var(--color-foreground));
+  }
+
+  .hero-route__track {
+    flex: 1;
+    height: 1px;
+    background-image: repeating-linear-gradient(
+      to right,
+      rgba(var(--color-foreground), 0.55) 0,
+      rgba(var(--color-foreground), 0.55) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+  }
+
+  .hero-route__labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    letter-spacing: 0.06rem;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.7);
+    margin-top: 1rem;
+  }
+
+  .hero-route__details {
+    margin: 2.4rem 0 0;
+    padding: 1.8rem 2rem;
+    border: 1px solid rgba(var(--color-foreground), 0.18);
+    border-radius: var(--inputs-radius);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .hero-route__detail {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.2rem;
+    font-size: 1.4rem;
+  }
+
+  .hero-route__detail dt {
+    color: rgba(var(--color-foreground), 0.7);
+  }
+
+  .hero-route__detail dd {
+    margin: 0;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero-route__grid {
+      grid-template-columns: 1fr;
+      gap: 2.4rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.hero-route.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:sections.hero-route.settings.heading.label",
+      "default": "t:sections.hero-route.settings.heading.default"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:sections.hero-route.settings.text.label",
+      "default": "t:sections.hero-route.settings.text.default"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "t:sections.hero-route.settings.button_label_1.label",
+      "default": "t:sections.hero-route.settings.button_label_1.default"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "t:sections.hero-route.settings.button_link_1.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary_1",
+      "label": "t:sections.hero-route.settings.button_style_secondary.label",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "t:sections.hero-route.settings.button_label_2.label",
+      "default": "t:sections.hero-route.settings.button_label_2.default"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "t:sections.hero-route.settings.button_link_2.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_style_secondary_2",
+      "label": "t:sections.hero-route.settings.button_style_secondary.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "origin_label",
+      "label": "t:sections.hero-route.settings.origin_label.label",
+      "default": "t:sections.hero-route.settings.origin_label.default"
+    },
+    {
+      "type": "text",
+      "id": "destination_label",
+      "label": "t:sections.hero-route.settings.destination_label.label",
+      "default": "t:sections.hero-route.settings.destination_label.default"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-3"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 76
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 76
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "t:sections.hero-route.blocks.detail.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:sections.hero-route.blocks.detail.settings.label.label"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "t:sections.hero-route.blocks.detail.settings.value.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.hero-route.presets.name",
+      "blocks": [
+        { "type": "detail" },
+        { "type": "detail" },
+        { "type": "detail" }
+      ]
+    }
+  ]
+}
+{% endschema %}

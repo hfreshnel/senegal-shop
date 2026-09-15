@@ -1,0 +1,173 @@
+<div class="how-it-works color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="how-it-works__head">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="how-it-works__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="how-it-works__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <ol class="how-it-works__list">
+      {%- for block in section.blocks -%}
+        <li class="how-it-works__step" {{ block.shopify_attributes }}>
+          <span class="how-it-works__number">{{ forloop.index | prepend: '00' | slice: -2, 2 }}</span>
+          {%- if block.settings.title != blank -%}
+            <h3 class="how-it-works__step-title">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <div class="how-it-works__step-text rte">{{ block.settings.text }}</div>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</div>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% stylesheet %}
+  .how-it-works__head {
+    margin-bottom: 3.6rem;
+  }
+
+  .how-it-works__heading {
+    margin: 0 0 0.8rem;
+  }
+
+  .how-it-works__subheading {
+    margin: 0;
+    max-width: 40ch;
+    color: rgba(var(--color-foreground), 0.75);
+  }
+
+  .how-it-works__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3.2rem;
+  }
+
+  .how-it-works__step {
+    border-top: 2px solid rgb(var(--color-button));
+    padding-top: 1.8rem;
+  }
+
+  .how-it-works__number {
+    display: block;
+    font-family: var(--font-heading-family);
+    font-size: 1.6rem;
+    color: rgba(var(--color-foreground), 0.6);
+    margin-bottom: 1rem;
+  }
+
+  .how-it-works__step-title {
+    margin: 0 0 0.8rem;
+    font-size: 1.8rem;
+  }
+
+  .how-it-works__step-text {
+    color: rgba(var(--color-foreground), 0.75);
+  }
+
+  @media screen and (max-width: 749px) {
+    .how-it-works__list {
+      grid-template-columns: 1fr;
+      gap: 2.4rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.how-it-works.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:sections.how-it-works.settings.heading.label",
+      "default": "t:sections.how-it-works.settings.heading.default"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.how-it-works.settings.subheading.label",
+      "default": "t:sections.how-it-works.settings.subheading.default"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 68
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 68
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "t:sections.how-it-works.blocks.step.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.how-it-works.blocks.step.settings.title.label"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:sections.how-it-works.blocks.step.settings.text.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.how-it-works.presets.name",
+      "blocks": [
+        { "type": "step" },
+        { "type": "step" },
+        { "type": "step" }
+      ]
+    }
+  ]
+}
+{% endschema %}

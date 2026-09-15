@@ -276,6 +276,9 @@
     }
   },
   "sections": {
+    "brand-showcase": {
+      "cta": "Voir la collection"
+    },
     "header": {
       "announcement": "Annonce",
       "menu": "Menu",
