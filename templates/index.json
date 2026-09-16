@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -24,6 +33,7 @@
         "brand-a": {
           "type": "brand",
           "settings": {
+            "collection": "brand-a",
             "title": "Marque A",
             "description": "Soins et cosmétiques, tradition scandinave.",
             "color_scheme": "scheme-6"
@@ -32,6 +42,7 @@
         "brand-b": {
           "type": "brand",
           "settings": {
+            "collection": "brand-b",
             "title": "Marque B",
             "description": "Accessoires et mode, façon parisienne.",
             "color_scheme": "scheme-7"
@@ -40,13 +51,18 @@
         "brand-c": {
           "type": "brand",
           "settings": {
+            "collection": "brand-c",
             "title": "Marque C",
             "description": "Épicerie fine et botanique, terroir français.",
             "color_scheme": "scheme-8"
           }
         }
       },
-      "block_order": ["brand-a", "brand-b", "brand-c"],
+      "block_order": [
+        "brand-a",
+        "brand-b",
+        "brand-c"
+      ],
       "settings": {
         "heading": "Des marques, pas juste des produits",
         "subheading": "Chaque marque a sa propre page et son propre univers — à vous de choisir la vôtre.",
@@ -80,7 +96,11 @@
           }
         }
       },
-      "block_order": ["step-1", "step-2", "step-3"],
+      "block_order": [
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
       "settings": {
         "heading": "Comment ça marche",
         "subheading": "Trois étapes, du choix du produit à la livraison chez vous.",
@@ -92,20 +112,19 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
+        "collection": "all",
+        "products_to_show": 8,
         "title": "Notre sélection",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "enable_desktop_slider": false,
         "full_width": false,
         "show_view_all": true,
         "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
+        "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
@@ -113,6 +132,7 @@
         "show_rating": false,
         "quick_add": "none",
         "columns_mobile": "2",
+        "swipe_on_mobile": false,
         "padding_top": 44,
         "padding_bottom": 44
       }
