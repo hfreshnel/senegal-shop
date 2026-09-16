@@ -1,0 +1,24 @@
+# Normalise automatiquement les fins de ligne en LF pour tous les fichiers texte
+* text=auto eol=lf
+
+# Fichiers texte du thème Shopify
+*.liquid text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.md text eol=lf
+*.svg text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Fichiers binaires : ne jamais toucher aux fins de ligne
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
