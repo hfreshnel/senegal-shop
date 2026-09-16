@@ -1,6 +1,6 @@
 {
   "name": "t:sections.brand-nav.name",
-  "type": "custom.brand-nav",
+  "type": "custom.brand_nav",
   "sections": {
     "brand-nav": {
       "type": "brand-nav",
