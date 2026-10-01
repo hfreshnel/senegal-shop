@@ -2,14 +2,13 @@
 
 <div class="brand-showcase color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
   <div class="page-width">
-    <div class="brand-showcase__head{% if animate %} scroll-trigger animate--slide-in{% endif %}">
-      {%- if section.settings.heading != blank -%}
-        <h2 class="brand-showcase__heading">{{ section.settings.heading }}</h2>
-      {%- endif -%}
-      {%- if section.settings.subheading != blank -%}
-        <p class="brand-showcase__subheading">{{ section.settings.subheading }}</p>
-      {%- endif -%}
-    </div>
+    {% render 'section-heading',
+      eyebrow: section.settings.eyebrow,
+      heading: section.settings.heading,
+      subheading: section.settings.subheading,
+      layout: 'split',
+      animate: animate
+    %}
 
     <ul class="brand-showcase__grid" role="list">
       {%- for block in section.blocks -%}
@@ -70,25 +69,6 @@
 {%- endstyle -%}
 
 {% stylesheet %}
-  .brand-showcase__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 2.4rem;
-    flex-wrap: wrap;
-    margin-bottom: 3.6rem;
-  }
-
-  .brand-showcase__heading {
-    margin: 0;
-  }
-
-  .brand-showcase__subheading {
-    margin: 0;
-    max-width: 38ch;
-    color: rgba(var(--color-foreground), 0.75);
-  }
-
   .brand-showcase__grid {
     list-style: none;
     margin: 0;
@@ -269,6 +249,11 @@
   "class": "section",
   "settings": [
     {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:sections.brand-showcase.settings.eyebrow.label"
+    },
+    {
       "type": "inline_richtext",
       "id": "heading",
       "label": "t:sections.brand-showcase.settings.heading.label",
@@ -294,7 +279,7 @@
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 100,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_top",
@@ -304,7 +289,7 @@
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 100,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",

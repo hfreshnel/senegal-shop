@@ -1,16 +1,16 @@
-# SénégalRek — état du projet
+# SénégalRek, état du projet
 
 Ce document décrit le projet, les décisions prises et l'état actuel du thème. Il complète `CLAUDE.md` (qui contient les instructions techniques pour travailler sur ce thème Liquid) sans le remplacer.
 
 ## Le projet
 
-SénégalRek est une boutique Shopify (thème basé sur Dawn) qui regroupe des produits de **plusieurs marques européennes** et les livre au Sénégal, avec une vraie expérience e-commerce : prix fixes, paiement en ligne, livraison suivie — explicitement **pas** un service de "devis + achat pour compte" informel.
+SénégalRek est une boutique Shopify (thème basé sur Dawn) qui regroupe des produits de **plusieurs marques européennes** et les livre au Sénégal, avec une vraie expérience e-commerce : prix fixes, paiement en ligne, livraison suivie, explicitement **pas** un service de "devis + achat pour compte" informel.
 
 **Cible** : la diaspora sénégalaise en Europe (achats pour la famille au pays) et les clients au Sénégal.
 
 **Positionnement** : doit paraître sérieux et professionnel (prix clairs, délais de livraison affichés, paiement en ligne) plutôt qu'improvisé. Les signaux de confiance comptent plus que l'étendue du catalogue à ce stade.
 
-**Vision produit actuelle** : une page par marque, navigable via des onglets — rail latéral sticky sur desktop, bandeau à défilement horizontal sur mobile — chaque page marque reprenant les couleurs de cette marque. Le reste (fiche produit, panier, checkout) garde la forme d'une boutique en ligne classique.
+**Vision produit actuelle** : une page par marque, navigable via des onglets, rail latéral sticky sur desktop, bandeau à défilement horizontal sur mobile, chaque page marque reprenant les couleurs de cette marque. Le reste (fiche produit, panier, checkout) garde la forme d'une boutique en ligne classique.
 
 ## Architecture retenue
 
@@ -22,8 +22,8 @@ Deux principes structurent toutes les décisions techniques prises jusqu'ici :
 ## Ce qui est construit (code, thème)
 
 ### Navigation multi-marques
-- `sections/brand-nav-group.json` + `sections/brand-nav.liquid` — rail de navigation entre marques, affiché **sur tout le site** (pas seulement les pages boutique), via un groupe de sections custom rendu dans `layout/theme.liquid`. Sticky à gauche sur desktop (≥990px), bandeau scrollable en haut sur mobile. 3 emplacements pré-configurés ("Marque A/B/C", color schemes 6/7/8), à lier à de vraies collections dans l'éditeur de thème.
-- `layout/theme.liquid` — restructuré pour placer le rail en colonne à côté de `<main>` (grille CSS `.brand-shell`). Le contenu principal est épinglé explicitement à la 2ᵉ colonne pour ne pas se retrouver écrasé dans la colonne étroite si le rail est vide.
+- `sections/brand-nav-group.json` + `sections/brand-nav.liquid`, rail de navigation entre marques, affiché **sur tout le site** (pas seulement les pages boutique), via un groupe de sections custom rendu dans `layout/theme.liquid`. Sticky à gauche sur desktop (≥990px), bandeau scrollable en haut sur mobile. 3 emplacements pré-configurés ("Marque A/B/C", color schemes 6/7/8), à lier à de vraies collections dans l'éditeur de thème.
+- `layout/theme.liquid`, restructuré pour placer le rail en colonne à côté de `<main>` (grille CSS `.brand-shell`). Le contenu principal est épinglé explicitement à la 2ᵉ colonne pour ne pas se retrouver écrasé dans la colonne étroite si le rail est vide.
 
 ### Page d'accueil
 - `templates/index.json` reconstruit avec du vrai contenu français : hero → vitrine des 3 marques → "Comment ça marche" (3 étapes) → sélection produits → bandeau d'appel.
@@ -33,9 +33,9 @@ Deux principes structurent toutes les décisions techniques prises jusqu'ici :
 ### Identité visuelle
 - Police de titres : **Montagu Slab** (`montagu_slab_n5`). Police de texte/UI : **Archivo** (`archivo_n4`). Remplace Assistant (police générique utilisée par défaut sur Dawn).
 - Palette : inchangée par rapport au premier rendu (ivoire `#FBF7F1`, vert profond `#1B4332`, terracotta `#C1652F`, brun foncé `#241C15`, beige `#F2E9DC`), plus 3 nouveaux color schemes placeholder pour les marques démo :
-  - `scheme-6` "Atelier Bleu" — `#EDF1F5` / `#2C4A6E`
-  - `scheme-7` "Rose Poudré" — `#F3E8EE` / `#7A3B57`
-  - `scheme-8` "Vert Sauge" — `#EEF0E4` / `#5B6B4D`
+  - `scheme-6` "Atelier Bleu", `#EDF1F5` / `#2C4A6E`
+  - `scheme-7` "Rose Poudré", `#F3E8EE` / `#7A3B57`
+  - `scheme-8` "Vert Sauge", `#EEF0E4` / `#5B6B4D`
 
 ### Templates alternatifs prêts à assigner
 - `templates/collection.brand-a.json`, `.brand-b.json`, `.brand-c.json`
@@ -52,7 +52,7 @@ aea7381 Add multi-brand navigation rail with per-brand color schemes
 2fa18df First render: SénégalRek brand pass on Dawn (session précédente)
 ```
 
-## État actuel — ce qui manque encore
+## État actuel, ce qui manque encore
 
 Le thème est **à jour côté code et validé** (`shopify theme check` : 0 erreur), mais rien n'est fonctionnel côté catalogue tant que ces étapes manuelles n'ont pas été faites dans l'Admin :
 
@@ -61,9 +61,9 @@ Le thème est **à jour côté code et validé** (`shopify theme check` : 0 erre
 - [ ] Assigner aux produits démo leur template alternatif correspondant
 - [ ] Dans l'éditeur de thème, lier les 3 blocs de la section "Marques" (le rail) aux 3 collections créées
 
-**Point d'attention** (valable tant que le thème était en brouillon) : Le sélecteur de template alternatif sur la fiche Collection/Produit dans l'Admin ne liste que les templates du thème **publié** — pour un thème brouillon, il faut choisir le template alternatif depuis l'éditeur de thème (Personnaliser) de ce thème précis, pas depuis la fiche Collection/Produit.
+**Point d'attention** (valable tant que le thème était en brouillon) : Le sélecteur de template alternatif sur la fiche Collection/Produit dans l'Admin ne liste que les templates du thème **publié**, pour un thème brouillon, il faut choisir le template alternatif depuis l'éditeur de thème (Personnaliser) de ce thème précis, pas depuis la fiche Collection/Produit.
 
-Une fois ces étapes faites, le rail change bien de couleur en cliquant entre marques, et la fiche produit garde la couleur de la marque (grâce à son template alternatif) — mais ceci reste un travail manuel par produit, il n'y a pas de résolution automatique "ce produit appartient à quelle marque" dans le code.
+Une fois ces étapes faites, le rail change bien de couleur en cliquant entre marques, et la fiche produit garde la couleur de la marque (grâce à son template alternatif), mais ceci reste un travail manuel par produit, il n'y a pas de résolution automatique "ce produit appartient à quelle marque" dans le code.
 
 ## Passe « motion » (2026-10-01)
 
@@ -83,6 +83,16 @@ Toutes les apparitions réutilisent `scroll-trigger` de Dawn (`assets/animations
 
 **À savoir** : si les animations de Windows sont désactivées (Paramètres → Accessibilité → Effets visuels → Effets d'animation), le navigateur demande « moins de mouvement » et **aucune animation ne s'affiche**. C'est voulu.
 
+## Passe « direction artistique » + onglets marques (2026-10-01)
+
+- **Onglets marques** (`sections/brand-nav.liquid`) : ils remplissent la barre. Sur ordinateur, rail vertical conservé (choix de l'utilisateur) avec des panneaux pleine hauteur ; sur mobile, segments de largeur égale. Au repos, teinte de la marque ; au survol, teinte plus barre d'accent, libellé qui glisse et flèche ; au clic, balayage de la couleur d'accent ; onglet actif rempli, et ce remplissage glisse d'un onglet à l'autre entre deux pages (view transition). L'onglet actif d'une fiche produit fonctionne désormais (comparaison par handle).
+- **Composant `snippets/section-heading.liquid`** : sur-titre précédé du motif pointillé, titre display, sous-titre, mise en page empilée ou scindée. Utilisé par la vitrine des marques et « Comment ça marche » (nouveau réglage `eyebrow`).
+- **Formes** : boutons pilule, coins doux (12 à 16 px) sur cartes, médias, champs et pop-ups. Échelle des titres à 110 %.
+- **Respiration** : marges des sections relevées (jusqu'à 160 px disponibles dans l'éditeur).
+- Em dash supprimés des contenus et libellés.
+
+Pas fait dans cette passe : terracotta pour les boutons d'action (contraste insuffisant avec le texte ivoire, il faudrait une teinte plus foncée), logo (à fournir).
+
 ## Problèmes connus
 
 - Résolus : le rail marques s'affiche sur tout le site (desktop et mobile) depuis le commit `5cb7877` (le push échouait auparavant à cause de l'identifiant de groupe invalide), et la page n'est plus écrasée à gauche sur desktop.
@@ -90,7 +100,7 @@ Toutes les apparitions réutilisent `scroll-trigger` de Dawn (`assets/animations
 
 ## Décisions ouvertes / à trancher plus tard
 
-- Les 3 marques actuelles (A/B/C, schemes 6/7/8) sont des **placeholders**. À remplacer par de vraies marques (nom, univers, couleurs) dès qu'elles sont connues — ça implique de renommer les color schemes dans l'éditeur et de remplacer les blocs du rail + de la vitrine.
-- Aucune vraie photo produit/lifestyle dans le thème — la page d'accueil a été conçue pour fonctionner sans, mais elle a des emplacements prévus pour en recevoir plus tard sans tout refaire.
+- Les 3 marques actuelles (A/B/C, schemes 6/7/8) sont des **placeholders**. À remplacer par de vraies marques (nom, univers, couleurs) dès qu'elles sont connues, ça implique de renommer les color schemes dans l'éditeur et de remplacer les blocs du rail + de la vitrine.
+- Aucune vraie photo produit/lifestyle dans le thème, la page d'accueil a été conçue pour fonctionner sans, mais elle a des emplacements prévus pour en recevoir plus tard sans tout refaire.
 - Délai de livraison affiché ("10 à 15 jours ouvrés") est un placeholder en attente de vrais chiffres.
 - Le thème `senegal-shop/main` est désormais **publié (live)** et synchronisé avec la branche `main` de GitHub : **pousser sur `main` déploie en production.** La boutique reste protégée par mot de passe.

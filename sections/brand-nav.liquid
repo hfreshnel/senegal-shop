@@ -1,21 +1,30 @@
+{%- liquid
+  assign product_collection_handles = ''
+  if product != blank
+    assign product_collection_handles = product.collections | map: 'handle'
+  endif
+-%}
+
 <brand-nav-component class="brand-nav color-{{ section.settings.color_scheme }} gradient">
   <ul class="brand-nav__list" role="list">
     {%- for block in section.blocks -%}
       {%- liquid
         assign is_active = false
-        if collection != blank and block.settings.collection != blank and collection.handle == block.settings.collection.handle
-          assign is_active = true
-        endif
-        if product != blank and block.settings.collection != blank and product.collections contains block.settings.collection
-          assign is_active = true
+        assign brand_handle = block.settings.collection.handle
+        if block.settings.collection != blank
+          if collection != blank and collection.handle == brand_handle
+            assign is_active = true
+          elsif product_collection_handles contains brand_handle
+            assign is_active = true
+          endif
         endif
         assign brand_label = block.settings.title | default: block.settings.collection.title
       -%}
       <li class="brand-nav__item" {{ block.shopify_attributes }}>
         <a
-          class="brand-nav__link color-{{ block.settings.color_scheme }}{% if is_active %} brand-nav__link--active{% endif %}"
+          class="brand-tab color-{{ block.settings.color_scheme }}{% if is_active %} brand-tab--active{% endif %}"
           {% if is_active %}
-            aria-current="true"
+            aria-current="page"
           {% endif %}
           {% if block.settings.collection != blank %}
             href="{{ block.settings.collection.url }}"
@@ -24,10 +33,15 @@
             aria-disabled="true"
           {% endif %}
         >
-          {%- if block.settings.logo != blank -%}
-            {{ block.settings.logo | image_url: width: 80 | image_tag: loading: 'lazy', width: 32, height: 32, class: 'brand-nav__logo' }}
-          {%- endif -%}
-          <span class="brand-nav__label">{{ brand_label }}</span>
+          <span class="brand-tab__indicator" aria-hidden="true"></span>
+          <span class="brand-tab__fill" aria-hidden="true"></span>
+          <span class="brand-tab__content">
+            {%- if block.settings.logo != blank -%}
+              {{ block.settings.logo | image_url: width: 80 | image_tag: loading: 'lazy', width: 32, height: 32, class: 'brand-tab__logo' }}
+            {%- endif -%}
+            <span class="brand-tab__label">{{ brand_label | escape }}</span>
+            {%- render 'motion-arrow' -%}
+          </span>
         </a>
       </li>
     {%- endfor -%}
@@ -35,87 +49,231 @@
 </brand-nav-component>
 
 {% stylesheet %}
+  /*
+    Tabs fill the bar: equal-width segments on mobile, full-height stacked panels in the
+    desktop rail. Rest = brand tint, hover = accent bar + tint, press/active = accent fill.
+  */
   .brand-nav {
+    display: block;
     view-transition-name: brand-rail;
   }
 
   .brand-nav__list {
     display: flex;
-    gap: 0.8rem;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
-    padding: 1.2rem 1.5rem;
     margin: 0;
+    padding: 0;
     list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+  }
+
+  .brand-nav__list::-webkit-scrollbar {
+    display: none;
   }
 
   .brand-nav__item {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
+    display: flex;
+    flex: 1 0 0;
+    min-width: 11rem;
   }
 
-  .brand-nav__link {
+  .brand-nav__item + .brand-nav__item {
+    border-left: 1px solid rgba(var(--color-foreground), 0.1);
+  }
+
+  .brand-tab {
+    position: relative;
+    isolation: isolate;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.8rem 1.4rem;
+    justify-content: center;
+    width: 100%;
+    min-height: 5.2rem;
+    padding: 1.2rem 1.6rem;
+    overflow: hidden;
     background: rgb(var(--color-background));
-    color: rgb(var(--color-foreground));
-    border: 1px solid rgba(var(--color-foreground), 0.15);
-    border-radius: var(--buttons-radius);
     text-decoration: none;
-    white-space: nowrap;
-    transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease,
-      border-color var(--duration-fast) ease;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .brand-nav__link[href]:hover {
-    border-color: rgb(var(--color-button));
+  /* Hover tint */
+  .brand-tab::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: rgba(var(--color-button), 0.08);
+    opacity: 0;
+    transition: opacity var(--duration-fast) ease;
   }
 
-  .brand-nav__link--active,
-  .brand-nav__link--active[href]:hover {
+  /* Accent bar: bottom edge on mobile, leading edge in the desktop rail */
+  .brand-tab__indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0.3rem;
+    z-index: -1;
     background: rgb(var(--color-button));
-    color: rgb(var(--color-button-text));
-    border-color: rgb(var(--color-button));
+    transform: scaleX(0);
+    transition: transform var(--duration-base) var(--ease-out-expo);
   }
 
-  .brand-nav__logo {
-    width: 2rem;
-    height: 2rem;
+  /* Accent fill: sweeps in on press, stays on the active tab */
+  .brand-tab__fill {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgb(var(--color-button));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--duration-base) var(--ease-out-expo);
+  }
+
+  .brand-tab__content {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: rgb(var(--color-foreground));
+    transition: transform var(--duration-base) var(--ease-out-expo), color var(--duration-fast) ease;
+  }
+
+  .brand-tab__label {
+    font-family: var(--font-heading-family);
+    font-size: 1.5rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .brand-tab__logo {
+    width: 2.4rem;
+    height: 2.4rem;
     object-fit: contain;
     border-radius: 50%;
   }
 
-  .brand-nav__label {
-    font-size: 1.3rem;
-    letter-spacing: 0.04rem;
+  .brand-tab .motion-arrow {
+    display: none;
+  }
+
+  .brand-tab--active .brand-tab__fill,
+  .brand-tab[href]:active .brand-tab__fill {
+    transform: scaleX(1);
+  }
+
+  .brand-tab--active .brand-tab__fill {
+    view-transition-name: brand-tab-active;
+  }
+
+  .brand-tab--active .brand-tab__content,
+  .brand-tab[href]:active .brand-tab__content {
+    color: rgb(var(--color-button-text));
+  }
+
+  .brand-tab[href]:active .brand-tab__content {
+    transform: scale(0.97);
+  }
+
+  .brand-tab:focus-visible {
+    outline: 0.2rem solid rgb(var(--color-button));
+    outline-offset: -0.4rem;
+  }
+
+  @media (hover: hover) {
+    .brand-tab[href]:not(.brand-tab--active):hover::before {
+      opacity: 1;
+    }
+
+    .brand-tab[href]:not(.brand-tab--active):hover .brand-tab__indicator {
+      transform: scaleX(1);
+    }
   }
 
   @media screen and (min-width: 990px) {
     .brand-nav {
+      --rail-top: 0px;
+
       position: sticky;
-      top: 2rem;
-      transition: top 0.15s ease-out;
+      top: var(--rail-top);
+      height: calc(100svh - var(--rail-top));
+      transition: top 0.15s ease-out, height 0.15s ease-out;
     }
 
     body:has(.shopify-section-header-sticky:not(.shopify-section-header-hidden)) .brand-nav {
-      top: calc(var(--header-height, 0px) + 2rem);
+      --rail-top: var(--header-height, 0px);
     }
 
     .brand-nav__list {
       flex-direction: column;
-      overflow-x: visible;
-      padding: 2rem 1.5rem;
+      height: 100%;
+      overflow: hidden auto;
+      border-bottom: 0;
+      border-right: 1px solid rgba(var(--color-foreground), 0.1);
     }
 
     .brand-nav__item {
-      scroll-snap-align: none;
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: 8rem;
     }
 
-    .brand-nav__link {
+    .brand-nav__item + .brand-nav__item {
+      border-left: 0;
+      border-top: 1px solid rgba(var(--color-foreground), 0.1);
+    }
+
+    .brand-tab {
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 2.4rem;
+    }
+
+    .brand-tab__indicator {
+      top: 0;
+      right: auto;
+      width: 0.4rem;
+      height: auto;
+      transform: scaleY(0);
+    }
+
+    .brand-tab__label {
+      font-size: 2rem;
       white-space: normal;
+    }
+
+    .brand-tab .motion-arrow {
+      display: inline-flex;
+      opacity: 0;
+      transform: translateX(-0.8rem);
+      transition: opacity var(--duration-fast) ease, transform var(--duration-base) var(--ease-out-expo);
+    }
+  }
+
+  @media screen and (min-width: 990px) and (hover: hover) {
+    .brand-tab[href]:not(.brand-tab--active):hover .brand-tab__indicator {
+      transform: scaleY(1);
+    }
+
+    .brand-tab[href]:not(.brand-tab--active):hover .brand-tab__content {
+      transform: translateX(0.8rem);
+    }
+
+    .brand-tab[href]:hover .motion-arrow {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-nav,
+    .brand-tab::before,
+    .brand-tab__indicator,
+    .brand-tab__fill,
+    .brand-tab__content,
+    .brand-tab .motion-arrow {
+      transition: none;
     }
   }
 {% endstylesheet %}

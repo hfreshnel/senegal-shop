@@ -554,21 +554,21 @@
           "default": "<p>Une sélection de marques européennes, commandées et payées en ligne en toute simplicité.</p>"
         },
         "button_label_1": {
-          "label": "Premier bouton — texte",
+          "label": "Texte du premier bouton",
           "default": "Découvrir les marques"
         },
         "button_link_1": {
-          "label": "Premier bouton — lien"
+          "label": "Lien du premier bouton"
         },
         "button_style_secondary": {
           "label": "Style contour"
         },
         "button_label_2": {
-          "label": "Second bouton — texte",
+          "label": "Texte du second bouton",
           "default": "Comment ça marche"
         },
         "button_link_2": {
-          "label": "Second bouton — lien"
+          "label": "Lien du second bouton"
         },
         "origin_label": {
           "label": "Étiquette de départ",
@@ -590,6 +590,9 @@
     "brand-showcase": {
       "name": "Vitrine des marques",
       "settings": {
+        "eyebrow": {
+          "label": "Sur-titre"
+        },
         "heading": {
           "label": "Titre",
           "default": "Des marques, pas juste des produits"
@@ -627,6 +630,9 @@
     "how-it-works": {
       "name": "Comment ça marche",
       "settings": {
+        "eyebrow": {
+          "label": "Sur-titre"
+        },
         "heading": {
           "label": "Titre",
           "default": "Comment ça marche"
@@ -720,11 +726,11 @@
           "default": "Une question avant de commander ?"
         },
         "button_label": {
-          "label": "Bouton — texte",
+          "label": "Texte du bouton",
           "default": "Comment ça marche"
         },
         "button_link": {
-          "label": "Bouton — lien"
+          "label": "Lien du bouton"
         }
       },
       "presets": {

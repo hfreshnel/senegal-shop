@@ -1,0 +1,99 @@
+{% doc %}
+  Renders a section header: optional eyebrow introduced by a short dotted route
+  (the brand motif), a display heading and an optional subheading.
+
+  The `split` layout puts the subheading on the right of the heading on desktop.
+
+  @param {string} heading - Heading (inline rich text allowed)
+  @param {string} [eyebrow] - Short label shown above the heading
+  @param {string} [subheading] - Supporting sentence
+  @param {string} [layout] - 'stacked' (default) or 'split'
+  @param {boolean} [animate] - Adds Dawn's scroll-trigger reveal
+
+  @example
+  {% render 'section-heading',
+    eyebrow: section.settings.eyebrow,
+    heading: section.settings.heading,
+    subheading: section.settings.subheading,
+    layout: 'split',
+    animate: settings.animations_reveal_on_scroll
+  %}
+{% enddoc %}
+
+{%- if heading != blank or eyebrow != blank -%}
+  <div class="section-heading section-heading--{{ layout | default: 'stacked' }}{% if animate %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="section-heading__main">
+      {%- if eyebrow != blank -%}
+        <p class="section-heading__eyebrow">{{ eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h2 class="section-heading__title">{{ heading }}</h2>
+      {%- endif -%}
+    </div>
+    {%- if subheading != blank -%}
+      <p class="section-heading__subheading">{{ subheading | escape }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .section-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-bottom: 4.8rem;
+  }
+
+  .section-heading__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin: 0 0 1.6rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(var(--color-button));
+  }
+
+  .section-heading__eyebrow::before {
+    content: '';
+    width: 3.2rem;
+    height: 2px;
+    background-image: repeating-linear-gradient(to right, currentColor 0 4px, transparent 4px 8px);
+  }
+
+  .section-heading__title {
+    max-width: 20ch;
+    margin: 0;
+    font-size: clamp(3rem, 2rem + 2vw, 5rem);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .section-heading__subheading {
+    max-width: 42ch;
+    margin: 0;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.75);
+  }
+
+  @media screen and (min-width: 990px) {
+    .section-heading {
+      margin-bottom: 6.4rem;
+    }
+
+    .section-heading--split {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 4rem;
+    }
+
+    .section-heading--split .section-heading__subheading {
+      max-width: 36ch;
+    }
+  }
+{% endstylesheet %}

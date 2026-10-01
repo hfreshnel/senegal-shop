@@ -2,14 +2,12 @@
 
 <div class="how-it-works color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
   <div class="page-width">
-    <div class="how-it-works__head{% if animate %} scroll-trigger animate--slide-in{% endif %}">
-      {%- if section.settings.heading != blank -%}
-        <h2 class="how-it-works__heading">{{ section.settings.heading }}</h2>
-      {%- endif -%}
-      {%- if section.settings.subheading != blank -%}
-        <p class="how-it-works__subheading">{{ section.settings.subheading }}</p>
-      {%- endif -%}
-    </div>
+    {% render 'section-heading',
+      eyebrow: section.settings.eyebrow,
+      heading: section.settings.heading,
+      subheading: section.settings.subheading,
+      animate: animate
+    %}
 
     {%- comment -%}
       The list is a scroll trigger without a Dawn animation class: its children run
@@ -50,20 +48,6 @@
 {%- endstyle -%}
 
 {% stylesheet %}
-  .how-it-works__head {
-    margin-bottom: 4.8rem;
-  }
-
-  .how-it-works__heading {
-    margin: 0 0 0.8rem;
-  }
-
-  .how-it-works__subheading {
-    margin: 0;
-    max-width: 40ch;
-    color: rgba(var(--color-foreground), 0.75);
-  }
-
   .how-it-works__list {
     --marker: 5.6rem;
     --step-gap: 3.2rem;
@@ -233,6 +217,11 @@
   "class": "section",
   "settings": [
     {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:sections.how-it-works.settings.eyebrow.label"
+    },
+    {
       "type": "inline_richtext",
       "id": "heading",
       "label": "t:sections.how-it-works.settings.heading.label",
@@ -258,7 +247,7 @@
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 100,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_top",
@@ -268,7 +257,7 @@
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 100,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",

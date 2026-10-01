@@ -24,8 +24,8 @@
         "destination_label": "Sénégal",
         "route_caption": "Livraison suivie de bout en bout",
         "color_scheme": "scheme-3",
-        "padding_top": 76,
-        "padding_bottom": 76
+        "padding_top": 112,
+        "padding_bottom": 120
       }
     },
     "marquee": {
@@ -114,11 +114,12 @@
         "brand-c"
       ],
       "settings": {
+        "eyebrow": "Nos marques",
         "heading": "Des marques, pas juste des produits",
-        "subheading": "Chaque marque a sa propre page et son propre univers — à vous de choisir la vôtre.",
+        "subheading": "Chaque marque a sa propre page et son propre univers. À vous de choisir la vôtre.",
         "color_scheme": "scheme-2",
-        "padding_top": 68,
-        "padding_bottom": 68
+        "padding_top": 112,
+        "padding_bottom": 112
       }
     },
     "how_it_works": {
@@ -152,11 +153,12 @@
         "step-3"
       ],
       "settings": {
+        "eyebrow": "En trois étapes",
         "heading": "Comment ça marche",
         "subheading": "Trois étapes, du choix du produit à la livraison chez vous.",
         "color_scheme": "scheme-1",
-        "padding_top": 68,
-        "padding_bottom": 68
+        "padding_top": 112,
+        "padding_bottom": 104
       }
     },
     "featured_collection": {
@@ -183,8 +185,8 @@
         "quick_add": "standard",
         "columns_mobile": "2",
         "swipe_on_mobile": false,
-        "padding_top": 44,
-        "padding_bottom": 44
+        "padding_top": 56,
+        "padding_bottom": 100
       }
     },
     "cta": {
@@ -194,8 +196,8 @@
         "button_label": "Comment ça marche",
         "button_link": "shopify://pages/comment-ca-marche",
         "color_scheme": "scheme-4",
-        "padding_top": 40,
-        "padding_bottom": 40
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     }
   },

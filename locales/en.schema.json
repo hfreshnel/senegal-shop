@@ -590,6 +590,9 @@
     "brand-showcase": {
       "name": "Brand showcase",
       "settings": {
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
         "heading": {
           "label": "Heading",
           "default": "Brands, not just products"
@@ -627,6 +630,9 @@
     "how-it-works": {
       "name": "How it works",
       "settings": {
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
         "heading": {
           "label": "Heading",
           "default": "How it works"
