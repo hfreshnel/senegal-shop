@@ -577,6 +577,10 @@
         "destination_label": {
           "label": "Destination label",
           "default": "Senegal"
+        },
+        "route_caption": {
+          "label": "Route caption",
+          "info": "Short note shown above the arc. Leave empty to hide it."
         }
       },
       "presets": {
@@ -605,6 +609,10 @@
             "title": {
               "label": "Display name",
               "info": "Defaults to the collection title"
+            },
+            "monogram": {
+              "label": "Monogram",
+              "info": "One or two letters shown large on the card. Defaults to the first letter of the name."
             },
             "description": {
               "label": "Short description"
@@ -643,6 +651,65 @@
       },
       "presets": {
         "name": "How it works"
+      }
+    },
+    "marquee": {
+      "name": "Scrolling banner",
+      "settings": {
+        "speed": {
+          "label": "Loop duration",
+          "info": "A longer duration scrolls more slowly."
+        },
+        "direction": {
+          "label": "Scroll direction",
+          "options__1": {
+            "label": "Left"
+          },
+          "options__2": {
+            "label": "Right"
+          }
+        }
+      },
+      "blocks": {
+        "item": {
+          "name": "Item",
+          "settings": {
+            "text": {
+              "label": "Text",
+              "default": "Secure online payment"
+            },
+            "icon": {
+              "label": "Icon",
+              "options__1": {
+                "label": "None"
+              },
+              "options__2": {
+                "label": "Lock"
+              },
+              "options__3": {
+                "label": "Truck"
+              },
+              "options__4": {
+                "label": "Price tag"
+              },
+              "options__5": {
+                "label": "Chat bubble"
+              },
+              "options__6": {
+                "label": "Check mark"
+              },
+              "options__7": {
+                "label": "Plane"
+              },
+              "options__8": {
+                "label": "Map pin"
+              }
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Scrolling banner"
       }
     },
     "cta-band": {

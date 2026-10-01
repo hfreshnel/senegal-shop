@@ -61,18 +61,36 @@ Le thème est **à jour côté code et validé** (`shopify theme check` : 0 erre
 - [ ] Assigner aux produits démo leur template alternatif correspondant
 - [ ] Dans l'éditeur de thème, lier les 3 blocs de la section "Marques" (le rail) aux 3 collections créées
 
-**Point d'attention** : le thème actuel est un **thème brouillon, pas encore publié**. Le sélecteur de template alternatif sur la fiche Collection/Produit dans l'Admin ne liste que les templates du thème **publié** — pour un thème brouillon, il faut choisir le template alternatif depuis l'éditeur de thème (Personnaliser) de ce thème précis, pas depuis la fiche Collection/Produit.
+**Point d'attention** (valable tant que le thème était en brouillon) : Le sélecteur de template alternatif sur la fiche Collection/Produit dans l'Admin ne liste que les templates du thème **publié** — pour un thème brouillon, il faut choisir le template alternatif depuis l'éditeur de thème (Personnaliser) de ce thème précis, pas depuis la fiche Collection/Produit.
 
 Une fois ces étapes faites, le rail change bien de couleur en cliquant entre marques, et la fiche produit garde la couleur de la marque (grâce à son template alternatif) — mais ceci reste un travail manuel par produit, il n'y a pas de résolution automatique "ce produit appartient à quelle marque" dans le code.
 
-## Problèmes connus — à traiter en prochaine session
+## Passe « motion » (2026-10-01)
 
-- **Le bug "page écrasée à gauche" n'est pas résolu sur PC.** Le fix du commit `f9ac78b` (épingler `<main>` en colonne 2 de la grille `.brand-shell`) corrige l'affichage mobile, mais **sur desktop le problème persiste**. À reprendre : vérifier pourquoi la grille à 2 colonnes ne se comporte pas comme prévu sur les grands écrans — probablement lié au point suivant (le rail ne se rend peut-être pas du tout, ce qui fausse la grille même avec le fix appliqué).
-- **Le rail de navigation entre marques ne s'affiche pas sur les pages marque.** En l'état, la seule façon d'accéder aux marques est la vitrine de cartes (`brand-showcase`) sur la page d'accueil — ce qui fonctionne bien *pour la page d'accueil*, mais une fois sur la page dédiée à une marque (collection), il n'y a **pas d'onglets de navigation scrollables** en haut/à côté comme demandé initialement (rail sticky sur desktop, bandeau scrollable sur mobile, visible sur tout le site). Le rail (`sections/brand-nav.liquid` + `brand-nav-group.json`) est codé mais ne se manifeste visiblement nulle part en dehors du code — à déboguer : voir si le groupe de sections custom se rend réellement, ou s'il faut revoir l'approche (ex. type de groupe, placement dans `layout/theme.liquid`).
+Diagnostic complet et feuille de route (phases 0 à 4) établis avec l'utilisateur. Cette passe couvre les **phases 0 + 1** : fondations et système de motion. Décisions : pas de photos avant longtemps (le design tient par la typo, la couleur et le SVG animé), site culturellement neutre, sauf une future page marque dédiée aux produits sénégalais.
+
+- **Signature « le trajet »** : la ligne pointillée Europe → Sénégal se dessine, avance, arrive. Tokens de motion dans `layout/theme.liquid` (`--ease-out-expo`, `--duration-fast/base/slow`) et transitions de page natives (`@view-transition`).
+- `sections/hero-route.liquid` : titre display qui apparaît mot par mot, arc SVG tracé au chargement, colis qui parcourt l'arc en boucle, point d'arrivée qui pulse, légende optionnelle (`route_caption`).
+- `sections/marquee.liquid` (nouvelle) : bandeau défilant de réassurance, avec bouton pause accessible.
+- `sections/brand-showcase.liquid` : cartes à monogramme (réglage `monogram`) ; au survol, la pastille remplit la carte aux couleurs de la marque. Carrousel sur mobile.
+- `sections/how-it-works.liquid` : étapes reliées par le trajet, chorégraphie pastille → ligne → pastille.
+- `sections/cta-band.liquid` : terracotta, ligne qui relie la question au bouton.
+- `snippets/motion-arrow.liquid` (nouveau) : flèche animée des boutons et liens.
+- Header : verre dépoli quand il colle. Rail marques : sticky réparé, états actif/survol, se cale sous le header.
+- Réglages : tiroir panier, survol "vertical-lift", quick-add sur la sélection. Textes anglais restants traduits.
+
+Toutes les apparitions réutilisent `scroll-trigger` de Dawn (`assets/animations.js`) : elles respectent le réglage « Révéler les sections au défilement » et le mode éditeur. Tout est désactivé sous `prefers-reduced-motion`. Vérifié dans Chrome (1440 px et 390 px, animé et réduit).
+
+**À savoir** : si les animations de Windows sont désactivées (Paramètres → Accessibilité → Effets visuels → Effets d'animation), le navigateur demande « moins de mouvement » et **aucune animation ne s'affiche**. C'est voulu.
+
+## Problèmes connus
+
+- Résolus : le rail marques s'affiche sur tout le site (desktop et mobile) depuis le commit `5cb7877` (le push échouait auparavant à cause de l'identifiant de groupe invalide), et la page n'est plus écrasée à gauche sur desktop.
+- Le titre de la fiche produit reste en taille H1 Dawn : énorme avec des noms longs (à traiter en phase 3).
 
 ## Décisions ouvertes / à trancher plus tard
 
 - Les 3 marques actuelles (A/B/C, schemes 6/7/8) sont des **placeholders**. À remplacer par de vraies marques (nom, univers, couleurs) dès qu'elles sont connues — ça implique de renommer les color schemes dans l'éditeur et de remplacer les blocs du rail + de la vitrine.
 - Aucune vraie photo produit/lifestyle dans le thème — la page d'accueil a été conçue pour fonctionner sans, mais elle a des emplacements prévus pour en recevoir plus tard sans tout refaire.
 - Délai de livraison affiché ("10 à 15 jours ouvrés") est un placeholder en attente de vrais chiffres.
-- Le thème n'est pas publié — à publier quand le catalogue démo (ou réel) sera en place et validé visuellement.
+- Le thème `senegal-shop/main` est désormais **publié (live)** et synchronisé avec la branche `main` de GitHub : **pousser sur `main` déploie en production.** La boutique reste protégée par mot de passe.

@@ -1,19 +1,25 @@
+{%- assign animate = settings.animations_reveal_on_scroll -%}
+
 <div class="cta-band color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
-  <div class="page-width cta-band__row">
+  <div class="page-width cta-band__row{% if animate %} scroll-trigger{% endif %}">
     {%- if section.settings.heading != blank -%}
       <h2 class="cta-band__heading">{{ section.settings.heading }}</h2>
     {%- endif -%}
+    <span class="cta-band__route" aria-hidden="true"></span>
     {%- if section.settings.button_label != blank -%}
-      <a
-        {% if section.settings.button_link == blank %}
-          role="link" aria-disabled="true"
-        {% else %}
-          href="{{ section.settings.button_link }}"
-        {% endif %}
-        class="button button--primary"
-      >
-        {{- section.settings.button_label | escape -}}
-      </a>
+      <div class="cta-band__action">
+        <a
+          {% if section.settings.button_link == blank %}
+            role="link" aria-disabled="true"
+          {% else %}
+            href="{{ section.settings.button_link }}"
+          {% endif %}
+          class="button button--primary has-motion-arrow"
+        >
+          {{- section.settings.button_label | escape -}}
+          {%- render 'motion-arrow' -%}
+        </a>
+      </div>
     {%- endif -%}
   </div>
 </div>
@@ -35,21 +41,98 @@
 {% stylesheet %}
   .cta-band__row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 2.4rem;
-    flex-wrap: wrap;
+    gap: 3.2rem;
   }
 
   .cta-band__heading {
     margin: 0;
-    max-width: 24ch;
+    max-width: 22ch;
+  }
+
+  /* Dotted route linking the question to the answer */
+  .cta-band__route {
+    position: relative;
+    flex: 1;
+    min-width: 4rem;
+    height: 2px;
+  }
+
+  .cta-band__route::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: repeating-linear-gradient(
+      to right,
+      rgba(var(--color-foreground), 0.55) 0 6px,
+      transparent 6px 12px
+    );
+  }
+
+  .cta-band__action {
+    flex: 0 0 auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cta-band__row.scroll-trigger .cta-band__heading,
+    .cta-band__row.scroll-trigger .cta-band__action {
+      opacity: 0.01;
+    }
+
+    .cta-band__row.scroll-trigger .cta-band__route::before {
+      width: 0;
+    }
+
+    .cta-band__row.scroll-trigger:not(.scroll-trigger--offscreen) .cta-band__heading {
+      animation: ctaBandRise var(--duration-slow) var(--ease-out-expo) forwards;
+    }
+
+    .cta-band__row.scroll-trigger:not(.scroll-trigger--offscreen) .cta-band__route::before {
+      animation: ctaBandDraw var(--duration-slow) var(--ease-out-expo) 250ms forwards;
+    }
+
+    .cta-band__row.scroll-trigger:not(.scroll-trigger--offscreen) .cta-band__action {
+      animation: ctaBandRise var(--duration-slow) var(--ease-out-expo) 650ms forwards;
+    }
+
+    .cta-band__row.scroll-trigger--design-mode .cta-band__heading,
+    .cta-band__row.scroll-trigger--design-mode .cta-band__route::before,
+    .cta-band__row.scroll-trigger--design-mode .cta-band__action {
+      opacity: 1;
+      width: 100%;
+      animation: none;
+    }
+
+    @keyframes ctaBandRise {
+      from {
+        opacity: 0.01;
+        transform: translateY(1.6rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes ctaBandDraw {
+      to {
+        width: 100%;
+      }
+    }
   }
 
   @media screen and (max-width: 749px) {
     .cta-band__row {
       flex-direction: column;
       align-items: flex-start;
+      gap: 2.4rem;
+    }
+
+    .cta-band__route {
+      display: none;
     }
   }
 {% endstylesheet %}
@@ -80,7 +163,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
-      "default": "scheme-5"
+      "default": "scheme-4"
     },
     {
       "type": "header",

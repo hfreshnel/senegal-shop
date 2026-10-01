@@ -14,6 +14,9 @@
       <li class="brand-nav__item" {{ block.shopify_attributes }}>
         <a
           class="brand-nav__link color-{{ block.settings.color_scheme }}{% if is_active %} brand-nav__link--active{% endif %}"
+          {% if is_active %}
+            aria-current="true"
+          {% endif %}
           {% if block.settings.collection != blank %}
             href="{{ block.settings.collection.url }}"
           {% else %}
@@ -33,7 +36,7 @@
 
 {% stylesheet %}
   .brand-nav {
-    height: 100%;
+    view-transition-name: brand-rail;
   }
 
   .brand-nav__list {
@@ -63,11 +66,19 @@
     border-radius: var(--buttons-radius);
     text-decoration: none;
     white-space: nowrap;
-    transition: box-shadow 0.2s ease;
+    transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease;
   }
 
-  .brand-nav__link--active {
-    box-shadow: 0 0 0 2px rgb(var(--color-button));
+  .brand-nav__link[href]:hover {
+    border-color: rgb(var(--color-button));
+  }
+
+  .brand-nav__link--active,
+  .brand-nav__link--active[href]:hover {
+    background: rgb(var(--color-button));
+    color: rgb(var(--color-button-text));
+    border-color: rgb(var(--color-button));
   }
 
   .brand-nav__logo {
@@ -86,6 +97,11 @@
     .brand-nav {
       position: sticky;
       top: 2rem;
+      transition: top 0.15s ease-out;
+    }
+
+    body:has(.shopify-section-header-sticky:not(.shopify-section-header-hidden)) .brand-nav {
+      top: calc(var(--header-height, 0px) + 2rem);
     }
 
     .brand-nav__list {

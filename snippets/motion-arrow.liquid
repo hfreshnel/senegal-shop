@@ -1,0 +1,53 @@
+{% doc %}
+  Renders a decorative arrow that slides forward when its closest `.has-motion-arrow`
+  parent (a button, a card link) is hovered or focused.
+
+  Add the `has-motion-arrow` class on the interactive parent.
+
+  @example
+  <a class="button has-motion-arrow" href="/collections/all">
+    Découvrir {% render 'motion-arrow' %}
+  </a>
+{% enddoc %}
+
+<span class="motion-arrow" aria-hidden="true">
+  {{- 'icon-arrow.svg' | inline_asset_content -}}
+</span>
+
+{% stylesheet %}
+  .motion-arrow {
+    display: inline-flex;
+    width: 1.4rem;
+    height: 1rem;
+    flex: 0 0 auto;
+    margin-inline-start: 0.8rem;
+    overflow: hidden;
+  }
+
+  .motion-arrow svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .has-motion-arrow:hover .motion-arrow svg,
+    .has-motion-arrow:focus-visible .motion-arrow svg {
+      animation: motionArrowLoop var(--duration-base) var(--ease-out-expo);
+    }
+
+    @keyframes motionArrowLoop {
+      0% {
+        transform: translateX(0);
+      }
+      49% {
+        transform: translateX(110%);
+      }
+      50% {
+        transform: translateX(-110%);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+  }
+{% endstylesheet %}

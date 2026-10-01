@@ -276,6 +276,9 @@
     }
   },
   "sections": {
+    "marquee": {
+      "pause": "Pause scrolling"
+    },
     "brand-showcase": {
       "cta": "View collection"
     },

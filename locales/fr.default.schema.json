@@ -577,6 +577,10 @@
         "destination_label": {
           "label": "Étiquette d’arrivée",
           "default": "Sénégal"
+        },
+        "route_caption": {
+          "label": "Légende du trajet",
+          "info": "Courte mention affichée au-dessus de l’arc. Laisser vide pour la masquer."
         }
       },
       "presets": {
@@ -605,6 +609,10 @@
             "title": {
               "label": "Nom affiché",
               "info": "Par défaut, utilise le titre de la collection"
+            },
+            "monogram": {
+              "label": "Monogramme",
+              "info": "Une ou deux lettres affichées en grand sur la carte. Par défaut, la première lettre du nom."
             },
             "description": {
               "label": "Description courte"
@@ -643,6 +651,65 @@
       },
       "presets": {
         "name": "Comment ça marche"
+      }
+    },
+    "marquee": {
+      "name": "Bandeau défilant",
+      "settings": {
+        "speed": {
+          "label": "Durée d’un tour",
+          "info": "Plus la durée est longue, plus le défilement est lent."
+        },
+        "direction": {
+          "label": "Sens du défilement",
+          "options__1": {
+            "label": "Vers la gauche"
+          },
+          "options__2": {
+            "label": "Vers la droite"
+          }
+        }
+      },
+      "blocks": {
+        "item": {
+          "name": "Élément",
+          "settings": {
+            "text": {
+              "label": "Texte",
+              "default": "Paiement en ligne sécurisé"
+            },
+            "icon": {
+              "label": "Icône",
+              "options__1": {
+                "label": "Aucune"
+              },
+              "options__2": {
+                "label": "Cadenas"
+              },
+              "options__3": {
+                "label": "Camion"
+              },
+              "options__4": {
+                "label": "Étiquette de prix"
+              },
+              "options__5": {
+                "label": "Bulle de discussion"
+              },
+              "options__6": {
+                "label": "Coche"
+              },
+              "options__7": {
+                "label": "Avion"
+              },
+              "options__8": {
+                "label": "Repère de carte"
+              }
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Bandeau défilant"
       }
     },
     "cta-band": {

@@ -498,6 +498,45 @@
   </script>
 {%- endif -%}
 
+{% stylesheet %}
+  /*
+    Frosted glass once the header sticks. The blur lives on a pseudo-element: a
+    backdrop-filter on .header-wrapper itself would trap the fixed-position menu
+    drawer and search modal inside the header.
+  */
+  .header-wrapper {
+    isolation: isolate;
+  }
+
+  .header-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(var(--color-background), 0.8);
+    -webkit-backdrop-filter: blur(1.4rem) saturate(1.4);
+    backdrop-filter: blur(1.4rem) saturate(1.4);
+    box-shadow: 0 1rem 2.4rem -1.8rem rgba(var(--color-shadow), 0.4);
+    opacity: 0;
+    transition: opacity var(--duration-base) ease;
+    pointer-events: none;
+  }
+
+  .shopify-section-header-sticky.scrolled-past-header .header-wrapper {
+    background: transparent;
+  }
+
+  .shopify-section-header-sticky.scrolled-past-header .header-wrapper::before {
+    opacity: 1;
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .header-wrapper::before {
+      background: rgb(var(--color-background));
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:sections.header.name",

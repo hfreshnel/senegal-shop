@@ -22,9 +22,56 @@
         "button_style_secondary_2": true,
         "origin_label": "Europe",
         "destination_label": "Sénégal",
+        "route_caption": "Livraison suivie de bout en bout",
         "color_scheme": "scheme-3",
         "padding_top": 76,
         "padding_bottom": 76
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "item-1": {
+          "type": "item",
+          "settings": {
+            "text": "Paiement en ligne sécurisé",
+            "icon": "lock"
+          }
+        },
+        "item-2": {
+          "type": "item",
+          "settings": {
+            "text": "Prix affichés tout compris",
+            "icon": "price_tag"
+          }
+        },
+        "item-3": {
+          "type": "item",
+          "settings": {
+            "text": "Livraison suivie jusqu'au Sénégal",
+            "icon": "truck"
+          }
+        },
+        "item-4": {
+          "type": "item",
+          "settings": {
+            "text": "Marques européennes sélectionnées",
+            "icon": "check_mark"
+          }
+        }
+      },
+      "block_order": [
+        "item-1",
+        "item-2",
+        "item-3",
+        "item-4"
+      ],
+      "settings": {
+        "speed": 40,
+        "direction": "left",
+        "color_scheme": "scheme-4",
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     },
     "brand_showcase": {
@@ -35,6 +82,7 @@
           "settings": {
             "collection": "brand-a",
             "title": "Marque A",
+            "monogram": "A",
             "description": "Soins et cosmétiques, tradition scandinave.",
             "color_scheme": "scheme-6"
           }
@@ -44,6 +92,7 @@
           "settings": {
             "collection": "brand-b",
             "title": "Marque B",
+            "monogram": "B",
             "description": "Accessoires et mode, façon parisienne.",
             "color_scheme": "scheme-7"
           }
@@ -53,6 +102,7 @@
           "settings": {
             "collection": "brand-c",
             "title": "Marque C",
+            "monogram": "C",
             "description": "Épicerie fine et botanique, terroir français.",
             "color_scheme": "scheme-8"
           }
@@ -130,7 +180,7 @@
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "quick_add": "none",
+        "quick_add": "standard",
         "columns_mobile": "2",
         "swipe_on_mobile": false,
         "padding_top": 44,
@@ -143,7 +193,7 @@
         "heading": "Une question avant de commander ?",
         "button_label": "Comment ça marche",
         "button_link": "shopify://pages/comment-ca-marche",
-        "color_scheme": "scheme-5",
+        "color_scheme": "scheme-4",
         "padding_top": 40,
         "padding_bottom": 40
       }
@@ -151,6 +201,7 @@
   },
   "order": [
     "hero",
+    "marquee",
     "brand_showcase",
     "how_it_works",
     "featured_collection",

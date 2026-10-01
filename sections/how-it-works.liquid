@@ -1,6 +1,8 @@
+{%- assign animate = settings.animations_reveal_on_scroll -%}
+
 <div class="how-it-works color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
   <div class="page-width">
-    <div class="how-it-works__head">
+    <div class="how-it-works__head{% if animate %} scroll-trigger animate--slide-in{% endif %}">
       {%- if section.settings.heading != blank -%}
         <h2 class="how-it-works__heading">{{ section.settings.heading }}</h2>
       {%- endif -%}
@@ -9,16 +11,24 @@
       {%- endif -%}
     </div>
 
-    <ol class="how-it-works__list">
+    {%- comment -%}
+      The list is a scroll trigger without a Dawn animation class: its children run
+      their own sequence (marker, then connector to the next step) indexed by --i.
+    {%- endcomment -%}
+    <ol class="how-it-works__list{% if animate %} scroll-trigger{% endif %}">
       {%- for block in section.blocks -%}
-        <li class="how-it-works__step" {{ block.shopify_attributes }}>
-          <span class="how-it-works__number">{{ forloop.index | prepend: '00' | slice: -2, 2 }}</span>
-          {%- if block.settings.title != blank -%}
-            <h3 class="how-it-works__step-title">{{ block.settings.title }}</h3>
-          {%- endif -%}
-          {%- if block.settings.text != blank -%}
-            <div class="how-it-works__step-text rte">{{ block.settings.text }}</div>
-          {%- endif -%}
+        <li class="how-it-works__step" style="--i: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+          <span class="how-it-works__marker" aria-hidden="true">
+            {{- forloop.index | prepend: '00' | slice: -2, 2 -}}
+          </span>
+          <div class="how-it-works__content">
+            {%- if block.settings.title != blank -%}
+              <h3 class="how-it-works__step-title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <div class="how-it-works__step-text rte">{{ block.settings.text }}</div>
+            {%- endif -%}
+          </div>
         </li>
       {%- endfor -%}
     </ol>
@@ -41,7 +51,7 @@
 
 {% stylesheet %}
   .how-it-works__head {
-    margin-bottom: 3.6rem;
+    margin-bottom: 4.8rem;
   }
 
   .how-it-works__heading {
@@ -55,40 +65,164 @@
   }
 
   .how-it-works__list {
+    --marker: 5.6rem;
+    --step-gap: 3.2rem;
+    --connector-inset: 1.2rem;
+
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3.2rem;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: var(--step-gap);
   }
 
   .how-it-works__step {
-    border-top: 2px solid rgb(var(--color-button));
-    padding-top: 1.8rem;
+    position: relative;
   }
 
-  .how-it-works__number {
-    display: block;
+  .how-it-works__marker {
+    display: grid;
+    place-items: center;
+    width: var(--marker);
+    height: var(--marker);
+    margin-bottom: 2.4rem;
+    border-radius: 50%;
+    background: rgb(var(--color-button));
+    color: rgb(var(--color-button-text));
     font-family: var(--font-heading-family);
-    font-size: 1.6rem;
-    color: rgba(var(--color-foreground), 0.6);
-    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+
+  /* Dotted route between a marker and the next one */
+  .how-it-works__step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: calc(var(--marker) / 2 - 1px);
+    left: calc(var(--marker) + var(--connector-inset));
+    width: calc(100% + var(--step-gap) - var(--marker) - 2 * var(--connector-inset));
+    height: 2px;
+    background-image: repeating-linear-gradient(
+      to right,
+      rgba(var(--color-button), 0.7) 0 6px,
+      transparent 6px 12px
+    );
   }
 
   .how-it-works__step-title {
     margin: 0 0 0.8rem;
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   .how-it-works__step-text {
+    max-width: 34ch;
     color: rgba(var(--color-foreground), 0.75);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .how-it-works__list.scroll-trigger .how-it-works__marker,
+    .how-it-works__list.scroll-trigger .how-it-works__content {
+      opacity: 0.01;
+    }
+
+    .how-it-works__list.scroll-trigger .how-it-works__step::after {
+      clip-path: inset(0 100% 0 0);
+    }
+
+    .how-it-works__list.scroll-trigger:not(.scroll-trigger--offscreen) .how-it-works__marker {
+      animation: hiwMarkerIn 700ms var(--ease-out-expo) calc(var(--i) * 450ms) forwards;
+    }
+
+    .how-it-works__list.scroll-trigger:not(.scroll-trigger--offscreen) .how-it-works__content {
+      animation: hiwContentIn var(--duration-slow) var(--ease-out-expo) calc(var(--i) * 450ms + 100ms) forwards;
+    }
+
+    .how-it-works__list.scroll-trigger:not(.scroll-trigger--offscreen) .how-it-works__step::after {
+      animation: hiwConnectorIn 600ms var(--ease-out-expo) calc(var(--i) * 450ms + 250ms) forwards;
+    }
+
+    .how-it-works__list.scroll-trigger--design-mode .how-it-works__marker,
+    .how-it-works__list.scroll-trigger--design-mode .how-it-works__content,
+    .how-it-works__list.scroll-trigger--design-mode .how-it-works__step::after {
+      opacity: 1;
+      clip-path: none;
+      animation: none;
+    }
+
+    @keyframes hiwMarkerIn {
+      from {
+        opacity: 0.01;
+        transform: scale(0.6);
+        background: transparent;
+        color: rgb(var(--color-button));
+        box-shadow: inset 0 0 0 1.5px rgb(var(--color-button));
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes hiwContentIn {
+      from {
+        opacity: 0.01;
+        transform: translateY(1.6rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes hiwConnectorIn {
+      to {
+        clip-path: inset(0);
+      }
+    }
   }
 
   @media screen and (max-width: 749px) {
     .how-it-works__list {
-      grid-template-columns: 1fr;
-      gap: 2.4rem;
+      --marker: 4.8rem;
+      --step-gap: 3.2rem;
+
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+    }
+
+    .how-it-works__step {
+      display: grid;
+      grid-template-columns: var(--marker) minmax(0, 1fr);
+      column-gap: 2rem;
+      align-items: start;
+    }
+
+    .how-it-works__marker {
+      margin-bottom: 0;
+      font-size: 1.6rem;
+    }
+
+    .how-it-works__content {
+      padding-top: 1rem;
+    }
+
+    .how-it-works__step:not(:last-child)::after {
+      top: calc(var(--marker) + var(--connector-inset));
+      left: calc(var(--marker) / 2 - 1px);
+      width: 2px;
+      height: calc(100% + var(--step-gap) - var(--marker) - 2 * var(--connector-inset));
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(var(--color-button), 0.7) 0 6px,
+        transparent 6px 12px
+      );
+    }
+  }
+
+  @media screen and (max-width: 749px) and (prefers-reduced-motion: no-preference) {
+    .how-it-works__list.scroll-trigger .how-it-works__step::after {
+      clip-path: inset(0 0 100% 0);
     }
   }
 {% endstylesheet %}

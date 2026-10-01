@@ -1,6 +1,8 @@
+{%- assign animate = settings.animations_reveal_on_scroll -%}
+
 <div class="brand-showcase color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
   <div class="page-width">
-    <div class="brand-showcase__head">
+    <div class="brand-showcase__head{% if animate %} scroll-trigger animate--slide-in{% endif %}">
       {%- if section.settings.heading != blank -%}
         <h2 class="brand-showcase__heading">{{ section.settings.heading }}</h2>
       {%- endif -%}
@@ -11,23 +13,41 @@
 
     <ul class="brand-showcase__grid" role="list">
       {%- for block in section.blocks -%}
-        <li {{ block.shopify_attributes }}>
+        {%- liquid
+          assign brand_label = block.settings.title | default: block.settings.collection.title
+          assign monogram = block.settings.monogram
+          if monogram == blank
+            assign monogram = brand_label | slice: 0 | upcase
+          endif
+        -%}
+        <li
+          class="brand-showcase__item{% if animate %} scroll-trigger animate--slide-in{% endif %}"
+          {{ block.shopify_attributes }}
+          {% if animate %}
+            data-cascade
+            style="--animation-order: {{ forloop.index }};"
+          {% endif %}
+        >
           <a
-            class="brand-showcase__card"
+            class="brand-card has-motion-arrow color-{{ block.settings.color_scheme }}"
             {% if block.settings.collection != blank %}
               href="{{ block.settings.collection.url }}"
             {% else %}
               role="link" aria-disabled="true"
             {% endif %}
           >
-            <span class="brand-showcase__swatch color-{{ block.settings.color_scheme }}" aria-hidden="true"></span>
-            <span class="brand-showcase__title">
-              {{ block.settings.title | default: block.settings.collection.title }}
+            <span class="brand-card__fill" aria-hidden="true"></span>
+            <span class="brand-card__monogram" aria-hidden="true">{{ monogram | escape }}</span>
+            <span class="brand-card__body">
+              <span class="brand-card__title">{{ brand_label | escape }}</span>
+              {%- if block.settings.description != blank -%}
+                <span class="brand-card__description">{{ block.settings.description | escape }}</span>
+              {%- endif -%}
             </span>
-            {%- if block.settings.description != blank -%}
-              <span class="brand-showcase__description">{{ block.settings.description }}</span>
-            {%- endif -%}
-            <span class="brand-showcase__cta">{{ 'sections.brand-showcase.cta' | t }}</span>
+            <span class="brand-card__cta">
+              {{- 'sections.brand-showcase.cta' | t -}}
+              {%- render 'motion-arrow' -%}
+            </span>
           </a>
         </li>
       {%- endfor -%}
@@ -78,44 +98,167 @@
     gap: 2rem;
   }
 
-  .brand-showcase__card {
+  .brand-showcase__item {
+    display: flex;
+  }
+
+  /* Card: the brand swatch (fill) grows from the top-left corner to cover the card */
+  .brand-card {
+    --swatch-size: 1.4rem;
+    --swatch-center: calc(2.8rem + var(--swatch-size));
+
+    position: relative;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
-    gap: 1.4rem;
-    height: 100%;
-    padding: 2.6rem 2.4rem;
-    border: 1px solid rgba(var(--color-foreground), 0.14);
-    border-radius: var(--inputs-radius);
-    text-decoration: none;
+    width: 100%;
+    min-height: 36rem;
+    padding: 2.8rem;
+    overflow: hidden;
+    border-radius: var(--text-boxes-radius);
+    background: rgb(var(--color-background));
     color: rgb(var(--color-foreground));
+    text-decoration: none;
   }
 
-  .brand-showcase__swatch {
-    width: 4.8rem;
-    height: 2.4rem;
-    border-radius: var(--inputs-radius);
+  .brand-card__fill {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgb(var(--color-button));
+    clip-path: circle(var(--swatch-size) at var(--swatch-center) var(--swatch-center));
+    transition: clip-path var(--duration-slow) var(--ease-out-expo);
   }
 
-  .brand-showcase__title {
+  .brand-card__monogram {
+    position: absolute;
+    right: 1.6rem;
+    bottom: -0.22em;
+    z-index: -1;
     font-family: var(--font-heading-family);
-    font-size: 1.8rem;
+    font-size: 24rem;
+    line-height: 1;
+    color: rgba(var(--color-button), 0.12);
+    transition: transform var(--duration-slow) var(--ease-out-expo), color var(--duration-base) ease;
   }
 
-  .brand-showcase__description {
-    font-size: 1.4rem;
-    color: rgba(var(--color-foreground), 0.7);
-    line-height: 1.5;
-  }
-
-  .brand-showcase__cta {
+  .brand-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
     margin-top: auto;
+  }
+
+  .brand-card__title {
+    color: rgb(var(--color-foreground));
+    font-family: var(--font-heading-family);
+    font-size: 2.6rem;
+    line-height: 1.15;
+  }
+
+  .brand-card__description {
+    max-width: 28ch;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: rgba(var(--color-foreground), 0.78);
+  }
+
+  .brand-card__cta {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 2.4rem;
+    color: rgb(var(--color-foreground));
     font-size: 1.3rem;
     font-weight: 600;
+    letter-spacing: 0.06rem;
+    text-transform: uppercase;
+  }
+
+  .brand-card__title,
+  .brand-card__description,
+  .brand-card__cta {
+    transition: color var(--duration-base) ease;
+  }
+
+  .brand-card:focus-visible {
+    outline: 0.2rem solid rgb(var(--color-foreground));
+    outline-offset: 0.3rem;
+  }
+
+  .brand-card:focus-visible .brand-card__fill {
+    clip-path: circle(150% at var(--swatch-center) var(--swatch-center));
+  }
+
+  .brand-card:focus-visible .brand-card__title,
+  .brand-card:focus-visible .brand-card__cta {
+    color: rgb(var(--color-button-text));
+  }
+
+  .brand-card:focus-visible .brand-card__description {
+    color: rgba(var(--color-button-text), 0.85);
+  }
+
+  .brand-card:focus-visible .brand-card__monogram {
+    color: rgba(var(--color-button-text), 0.16);
+  }
+
+  @media (hover: hover) {
+    .brand-card:hover .brand-card__fill {
+      clip-path: circle(150% at var(--swatch-center) var(--swatch-center));
+    }
+
+    .brand-card:hover .brand-card__title,
+    .brand-card:hover .brand-card__cta {
+      color: rgb(var(--color-button-text));
+    }
+
+    .brand-card:hover .brand-card__description {
+      color: rgba(var(--color-button-text), 0.85);
+    }
+
+    .brand-card:hover .brand-card__monogram {
+      color: rgba(var(--color-button-text), 0.16);
+      transform: translate(-1.2rem, -1.2rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-card__fill,
+    .brand-card__monogram {
+      transition: none;
+    }
   }
 
   @media screen and (max-width: 749px) {
     .brand-showcase__grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: 80%;
+      gap: 1.2rem;
+      margin: 0 -1.5rem;
+      padding: 0 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 1.5rem;
+      scrollbar-width: none;
+    }
+
+    .brand-showcase__grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .brand-showcase__item {
+      scroll-snap-align: start;
+    }
+
+    .brand-card {
+      min-height: 30rem;
+      padding: 2.4rem;
+      --swatch-center: calc(2.4rem + var(--swatch-size));
+    }
+
+    .brand-card__monogram {
+      font-size: 20rem;
     }
   }
 {% endstylesheet %}
@@ -183,6 +326,12 @@
           "id": "title",
           "label": "t:sections.brand-showcase.blocks.brand.settings.title.label",
           "info": "t:sections.brand-showcase.blocks.brand.settings.title.info"
+        },
+        {
+          "type": "text",
+          "id": "monogram",
+          "label": "t:sections.brand-showcase.blocks.brand.settings.monogram.label",
+          "info": "t:sections.brand-showcase.blocks.brand.settings.monogram.info"
         },
         {
           "type": "text",
